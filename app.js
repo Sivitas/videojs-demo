@@ -9,17 +9,20 @@
     controls: 1
   });
 
-  var options = {
+  var imaOptions = {
     id: 'main',
     prerollTimeout: 3000,
     timeout: 3000
   };
   var queryParams = {};
 
+  // types of ads that can be loaded
   var ads = {
     doubleclick: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=',
     vpaid: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=is&c=23&pl=VAST&pli=14432293&PluID=0&pos=8834&ord=%5Btimestamp%5D&cim=1'
   };
+
+  // the video playlist
   var videos = [
     'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4',
     'http://techslides.com/demos/sample-videos/small.mp4',
@@ -48,19 +51,22 @@
     if (videoIndex < 0) { videoIndex = videos.length-1; }
     _loadVideo(videos[videoIndex], activeAd);
   }
+
   // private
   function _createAdEventHandlers() {
     // TODO
     player.ima.startFromReadyCallback();
   }
   function _createEventHandlers() {
-    // auto advance to next video on video end
     player.on('ended', function() {
+      // auto advance to next video on video end
       loadNext();
     });
   }
   function _exctractQueryParams() {
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var url = window.location.href,
+      hashes = url.slice(url.indexOf('?') + 1).split('&');
+
     hashes.forEach(function(hash) {
       hash = hash.split('=');
       queryParams[hash[0]] = hash[1];
@@ -73,7 +79,7 @@
   function _init() {
     if (queryParams.vpaid === '1') { activeAd = ads.vpaid; }
 
-    player.ima(options, _createAdEventHandlers);
+    player.ima(imaOptions, _createAdEventHandlers);
     player.ima.initializeAdDisplayContainer();
 
     _loadVideo(videos[0], activeAd);
