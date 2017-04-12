@@ -18,9 +18,9 @@
   var adTag = 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=is&c=23&pl=VAST&pli=14432293&PluID=0&pos=8834&ord=%5Btimestamp%5D&cim=1';
   var videos = [
     'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4',
-    'http://techslides.com/demos/sample-videos/small.mp4'
+    'http://techslides.com/demos/sample-videos/small.mp4',
     'https://mtc.cdn.vine.co/r/videos/84C4E2C3DD1357938356432023552_574449b2afd.25.1.F040A49F-C8B2-4EC1-8F9F-6525F1365103.mp4?versionId=eweULi8mnxy8zDTuJ4FfkWl4ZeVpOm7r'
-    ]
+    ];
   var videoIndex = 0;
 
   // api
