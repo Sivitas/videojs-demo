@@ -11,8 +11,8 @@
 
   var imaOptions = {
     id: 'main',
-    prerollTimeout: 3000,
-    timeout: 3000
+    prerollTimeout: 5000,
+    timeout: 5000
   };
   var queryParams = {};
 
@@ -21,6 +21,8 @@
     doubleclick: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=',
     vpaid: 'https://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=is&c=23&pl=VAST&pli=14432293&PluID=0&pos=8834&ord=%5Btimestamp%5D&cim=1'
   };
+
+  var vmapAd = '<vmap:VMAP xmlns:vmap="https://unreel.me/player/main" version="1.0"><vmap:AdBreak timeOffset="00:00:02.000" breakType="linear"><vmap:AdSource id="preroll-1"><vmap:AdTagURI templateType="vast3"><![CDATA[{{AD_URL}}]]></vmap:AdTagURI></vmap:AdSource></vmap:AdBreak></vmap:VMAP>';
 
   // the video playlist
   var videos = [
@@ -72,10 +74,6 @@
       queryParams[hash[0]] = hash[1];
     });
   }
-  function _loadVideo(video, ad) {
-    player.ima.setContentWithAdTag(video, ad, false);
-    player.ima.requestAds();
-  }
   function _init() {
     if (queryParams.vpaid === '1') { activeAd = ads.vpaid; }
 
@@ -83,5 +81,13 @@
     player.ima.initializeAdDisplayContainer();
 
     _loadVideo(videos[0], activeAd);
+  }
+  function _loadVideo(video, ad) {
+    if (queryParams.vmap === '1') {
+      player.ima.setContentWithAdsResponse(video, vmapAd.replace('{{AD_URL}}', ad));
+    } else {
+      player.ima.setContentWithAdTag(video, ad, false);
+    }
+    player.ima.requestAds();
   }
 }());
